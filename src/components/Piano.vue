@@ -3,9 +3,9 @@
     <div class="piano__keys">
       <div
         class="key"
-        v-for="key in piano_keys.flat()"
+        v-for="(key, i) in piano_keys.flat()"
         :key="key"
-        @click.prevent="playSound(`../assets/samples/Piano.ff.${key}.aiff.mp3`)"
+        @click.prevent="playSound(music[i])"
       >
         <div v-if="!String(key).includes('#')" class="white">
           {{ key }}
@@ -17,7 +17,6 @@
     </div>
     <div
       class="piano__dasboard"
-      @click="play"
     >
       Upravlenie
     </div>
@@ -25,12 +24,16 @@
 </template>
 
 <script>
-
+// import useSound from 'vue-use-sound'
+import buttonSfx from '../assets/samples/Piano.ff.A2.aiff.mp3'
 
 export default {
   name: "Piano",
   data() {
     return {
+      music: [
+          buttonSfx, buttonSfx, buttonSfx, buttonSfx, buttonSfx
+      ],  
       piano_keys: [
         ["A2", "A3", "A4", "A5", "A6", "A7"],
         ["A0", "A#0", "B0"],
@@ -141,13 +144,21 @@ export default {
     playSound(sound) {
       console.log(sound);
       if (sound) {
+          
         let audio = new Audio(sound);
+        console.log(audio);
         audio.play();
       }
     },
   },
 
+//   setup() {
+//     const [play] = useSound(buttonSfx)
 
+//     return {
+//       play,
+//     }
+//   },
 };
 </script>
 
