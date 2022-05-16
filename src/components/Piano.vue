@@ -1,57 +1,103 @@
 <template>
   <div class="piano">
+    <div class="piano__head">
+      <div class="piano__dashboard">
+        <div class="piano__power">
+          <span>{{ togglePiano === false ? "On" : "Off" }}</span>
+          <Button @click="disableAllButtons" />
+        </div>
+        <div class="piano__volume">
+          <div class="piano__volume-header">
+            <span>Volume</span>
+            <div class="piano__volume-levels">
+              <div
+                class="level"
+                v-for="lvl in volume_levels"
+                :key="lvl"
+                :class="{ vol: lvl.vol }"
+              ></div>
+            </div>
+          </div>
+          <div class="piano__volume-btns">
+            <Button @click="minusVolume" />
+            <Button @click="plusVolume" />
+          </div>
+        </div>
+        <div class="piano__samples">
+          <span>Tone</span>
+          <div class="btns">
+            <Button />
+            <Button />
+            <Button />
+          </div>
+        </div>
+        <div class="piano__octaves">
+          <div class="btns">
+            <Button @click="minusOctave"/>
+            <Button @click="plusOctave"/>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="piano__keys">
-      <div
+      <button
         class="key"
-        v-for="(key, i) in piano_keys.flat()"
-        :key="key"
-        @click.prevent="playSound(music[i])"
+        v-for="(key, i) in keys_arr"
+        :key="i"
+        @click.prevent="playSound(music[1][key])"
+        :disabled="togglePiano"
       >
-        <div v-if="!String(key).includes('#')" class="white">
+        <div v-if="!String(key[1]).includes('s')" class="white">
           {{ key }}
         </div>
         <div v-else class="black">
           {{ key }}
         </div>
-      </div>
-    </div>
-    <div
-      class="piano__dasboard"
-    >
-      Upravlenie
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-// import useSound from 'vue-use-sound'
-import buttonSfx from '../assets/samples/Piano.ff.A2.aiff.mp3'
+import sounds from "../assets/audiosprite";
+import Button from "../components/UI/Button.vue";
 
 export default {
   name: "Piano",
+  components: {
+    Button,
+  },
   data() {
     return {
-      music: [
-          buttonSfx, buttonSfx, buttonSfx, buttonSfx, buttonSfx
-      ],  
+      keys_arr: [],
+      volume: 2,
+      octave: 1,
+      volume_levels: [
+        { id: 1, vol: true },
+        { id: 2, vol: true },
+        { id: 3, vol: false },
+        { id: 4, vol: false },
+        { id: 5, vol: false },
+      ],
+      togglePiano: true,
+      music: [sounds["octava0"], sounds["octava1"]],
       piano_keys: [
-        ["A2", "A3", "A4", "A5", "A6", "A7"],
-        ["A0", "A#0", "B0"],
-        [
+        {octave: 0, keys: ["A0", "As0", "B0"], active: false},
+        {octave: 1, keys:[
           "C1",
-          "C#1",
+          "Cs1",
           "D1",
-          "D#1",
+          "Ds1",
           "E1",
           "F1",
-          "F#1",
+          "Fs1",
           "G1",
-          "G#1",
+          "Gs1",
           "A1",
-          "A#1",
+          "As1",
           "B1",
-        ],
-        [
+        ], active: true},
+        {octave: 2, keys:[
           "C2",
           "C#2",
           "D2",
@@ -64,8 +110,8 @@ export default {
           "A2",
           "A#2",
           "B2",
-        ],
-        [
+        ], active: false},
+        {octave: 3, keys:[
           "C3",
           "C#3",
           "D3",
@@ -78,8 +124,8 @@ export default {
           "A3",
           "A#3",
           "B3",
-        ],
-        [
+        ], active: false},
+        {octave: 4, keys:[
           "C4",
           "C#4",
           "D4",
@@ -92,8 +138,8 @@ export default {
           "A4",
           "A#4",
           "B4",
-        ],
-        [
+        ], active: false},
+        {octave: 5, keys:[
           "C5",
           "C#5",
           "D5",
@@ -106,8 +152,8 @@ export default {
           "A5",
           "A#5",
           "B5",
-        ],
-        [
+        ], active: false},
+        {octave: 6, keys:[
           "C6",
           "C#6",
           "D6",
@@ -120,8 +166,8 @@ export default {
           "A6",
           "A#6",
           "B6",
-        ],
-        [
+        ], active: false},
+        {octave: 7, keys:[
           "C7",
           "C#7",
           "D7",
@@ -134,31 +180,68 @@ export default {
           "A7",
           "A#7",
           "B7",
-        ],
-        ["C8"],
+        ], active: false},
+        {octave: 8, keys:["C8"], active: false},
       ],
     };
+  },
+
+  created() {
+    this.keys_arr = this.piano_keys.map(item => item.keys).flat()
   },
 
   methods: {
     playSound(sound) {
       console.log(sound);
       if (sound) {
-          
         let audio = new Audio(sound);
         console.log(audio);
         audio.play();
       }
     },
+
+    disableAllButtons() {
+      if (this.togglePiano) {
+        this.togglePiano = false;
+      } else {
+        this.togglePiano = true;
+      }
+    },
+
+    minusVolume() {
+      if (this.volume > 0) {
+        this.volume -= 1;
+        this.volume_levels[this.volume].vol = false;
+      }
+    },
+
+    plusVolume() {
+      if (this.volume < this.volume_levels.length) {
+        this.volume += 1;
+        this.volume_levels[this.volume - 1].vol = true;
+      }
+    },
+
+    minusOctave() {
+      if (this.octave > 0) {
+        this.octave -= 1;
+        console.log(this.octave)
+        this.piano_keys[this.octave - 1].active = false;
+        this.piano_keys[this.octave + 1].active = true;
+
+      }
+    },
+
+    plusOctave() {
+      if (this.octave < this.piano_keys.length) {
+        this.octave += 1;
+        console.log(this.octave)
+        this.piano_keys[this.octave - 1].active = true;
+        this.piano_keys[this.octave + 1].active = false;
+
+      }
+    },
   },
-
-//   setup() {
-//     const [play] = useSound(buttonSfx)
-
-//     return {
-//       play,
-//     }
-//   },
 };
 </script>
 
@@ -166,6 +249,11 @@ export default {
 .piano {
   display: flex;
   width: 100%;
+  flex-direction: column;
+}
+
+.piano__dashboard {
+  display: flex;
 }
 
 .piano__keys {
@@ -187,5 +275,21 @@ export default {
   background-color: #000;
   color: #fff;
   border: 1px solid transparent;
+}
+
+.piano__volume-levels {
+  display: flex;
+}
+
+.level {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin-left: 5px;
+}
+
+.vol {
+  background-color: red;
 }
 </style>
