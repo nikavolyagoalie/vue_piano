@@ -1,5 +1,5 @@
 <template>
-  <div class="octave">
+  <div class="octave" :class="{ 'active-octave': activeOctave === true }">
     <button
       class="key"
       v-for="(key, i) in keys"
@@ -19,14 +19,66 @@
 
 <script>
 export default {
-  data() {
-    return {
-      // :octaveNum="piano_keys[8].octave"
-      //   :activeOctaveAll="octaveActive"
-      //   :activeOctave="piano_keys[8].active"
-      //   :sounds="music[8]"
-      //   :keys="piano_keys[8].keys"
-    };
+  created() {
+    window.addEventListener("keydown", (e) => {
+      if (!this.togglePiano) {
+        if (e.key === this.keyboard[0]) {
+          this.playSound(this.sounds[this.keys[0]]);
+        }
+
+        if (e.key === this.keyboard[1]) {
+          this.playSound(this.sounds[this.keys[1]]);
+        }
+
+        if (e.key === this.keyboard[2]) {
+          this.playSound(this.sounds[this.keys[2]]);
+        }
+
+        if (e.key === this.keyboard[3]) {
+          this.playSound(this.sounds[this.keys[3]]);
+        }
+
+        if (e.key === this.keyboard[4]) {
+          this.playSound(this.sounds[this.keys[4]]);
+        }
+
+        if (e.key === this.keyboard[5]) {
+          this.playSound(this.sounds[this.keys[5]]);
+        }
+
+        if (e.key === this.keyboard[6]) {
+          this.playSound(this.sounds[this.keys[6]]);
+        }
+
+        if (e.key === this.keyboard[7]) {
+          this.playSound(this.sounds[this.keys[7]]);
+        }
+
+        if (e.key === this.keyboard[8]) {
+          this.playSound(this.sounds[this.keys[8]]);
+        }
+
+        if (e.key === this.keyboard[9]) {
+          this.playSound(this.sounds[this.keys[9]]);
+        }
+
+        if (e.key === this.keyboard[10]) {
+          this.playSound(this.sounds[this.keys[10]]);
+        }
+
+        if (e.key === this.keyboard[11]) {
+          this.playSound(this.sounds[this.keys[11]]);
+        }
+
+        if (e.key === this.keyboard[12]) {
+          this.playSound(this.sounds[this.keys[12]]);
+        }
+
+        if (e.key === this.keyboard[13]) {
+          this.playSound(this.sounds[this.keys[13]]);
+        }
+      }
+    });
   },
   props: {
     octaveNum: {
@@ -51,6 +103,11 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      keyboard: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j"],
+    };
+  },
   methods: {
     playSound(sound) {
       console.log(sound);
@@ -66,19 +123,38 @@ export default {
 
 <style scoped>
 .key {
-  margin-bottom: 1px;
   cursor: pointer;
+  height: 200px;
+  outline: none;
+  border: 1px solid #000;
+  background-color: #fff;
+  margin: 0 0.5px;
+  position: relative;
+  width: 27px;
 }
 
 .white {
   background-color: #fff;
   color: #000;
-  border: 1px solid #000;
+  top: 0;
+  position: absolute;
 }
 
 .black {
   background-color: #000;
   color: #fff;
-  border: 1px solid transparent;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.octave {
+  border: 3px solid transparent;
+  margin: 0 0.5px;
+}
+
+.active-octave {
+  border: 3px solid #12c912;
 }
 </style>
