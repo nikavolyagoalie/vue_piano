@@ -40,20 +40,78 @@
       </div>
     </div>
     <div class="piano__keys">
-      <button
-        class="key"
-        v-for="(key, i) in keys_arr"
-        :key="i"
-        @click.prevent="playSound(music[1][key])"
-        :disabled="togglePiano"
-      >
-        <div v-if="!String(key[1]).includes('s')" class="white">
-          {{ key }}
-        </div>
-        <div v-else class="black">
-          {{ key }}
-        </div>
-      </button>
+      <Octave
+        :octaveNum="piano_keys[0].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[0].active"
+        :sounds="music[0]"
+        :keys="piano_keys[0].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[1].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[1].active"
+        :sounds="music[1]"
+        :keys="piano_keys[1].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[2].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[2].active"
+        :sounds="music[2]"
+        :keys="piano_keys[2].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[3].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[3].active"
+        :sounds="music[3]"
+        :keys="piano_keys[3].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[4].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[4].active"
+        :sounds="music[4]"
+        :keys="piano_keys[4].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[5].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[5].active"
+        :sounds="music[5]"
+        :keys="piano_keys[5].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[6].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[6].active"
+        :sounds="music[6]"
+        :keys="piano_keys[6].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[7].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[7].active"
+        :sounds="music[7]"
+        :keys="piano_keys[7].keys"
+        :togglePiano="togglePiano"
+      />
+      <Octave
+        :octaveNum="piano_keys[8].octave"
+        :activeOctaveAll="octaveActive"
+        :activeOctave="piano_keys[8].active"
+        :sounds="music[8]"
+        :keys="piano_keys[8].keys"
+        :togglePiano="togglePiano"
+      />
     </div>
   </div>
 </template>
@@ -61,17 +119,19 @@
 <script>
 import sounds from "../assets/audiosprite";
 import Button from "../components/UI/Button.vue";
+import Octave from "../components/Octave.vue";
 
 export default {
   name: "Piano",
   components: {
-    Button,
+    Button, Octave
   },
   data() {
     return {
       keys_arr: [],
       volume: 2,
       octave: 1,
+      octaveActive: false,
       volume_levels: [
         { id: 1, vol: true },
         { id: 2, vol: true },
@@ -80,7 +140,7 @@ export default {
         { id: 5, vol: false },
       ],
       togglePiano: true,
-      music: [sounds["octava0"], sounds["octava1"]],
+      music: [sounds["octava0"], sounds["octava1"], sounds["octava2"], sounds["octava3"], sounds["octava4"], sounds["octava5"], sounds["octava6"], sounds["octava7"], sounds["octava8"]],
       piano_keys: [
         {octave: 0, keys: ["A0", "As0", "B0"], active: false},
         {octave: 1, keys:[
@@ -99,86 +159,86 @@ export default {
         ], active: true},
         {octave: 2, keys:[
           "C2",
-          "C#2",
+          "Cs2",
           "D2",
-          "D#2",
+          "Ds2",
           "E2",
           "F2",
-          "F#2",
+          "Fs2",
           "G2",
-          "G#2",
+          "Gs2",
           "A2",
-          "A#2",
+          "As2",
           "B2",
         ], active: false},
         {octave: 3, keys:[
           "C3",
-          "C#3",
+          "Cs3",
           "D3",
-          "D#3",
+          "Ds3",
           "E3",
           "F3",
-          "F#3",
+          "Fs3",
           "G3",
-          "G#3",
+          "Gs3",
           "A3",
-          "A#3",
+          "As3",
           "B3",
         ], active: false},
         {octave: 4, keys:[
           "C4",
-          "C#4",
+          "Cs4",
           "D4",
-          "D#4",
+          "Ds4",
           "E4",
           "F4",
-          "F#4",
+          "Fs4",
           "G4",
-          "G#4",
+          "Gs4",
           "A4",
-          "A#4",
+          "As4",
           "B4",
         ], active: false},
         {octave: 5, keys:[
           "C5",
-          "C#5",
+          "Cs5",
           "D5",
-          "D#5",
+          "Ds5",
           "E5",
           "F5",
-          "F#5",
+          "Fs5",
           "G5",
-          "G#5",
+          "Gs5",
           "A5",
-          "A#5",
+          "As5",
           "B5",
         ], active: false},
         {octave: 6, keys:[
           "C6",
-          "C#6",
+          "Cs6",
           "D6",
-          "D#6",
+          "Ds6",
           "E6",
           "F6",
-          "F#6",
+          "Fs6",
           "G6",
-          "G#6",
+          "Gs6",
           "A6",
-          "A#6",
+          "As6",
           "B6",
         ], active: false},
         {octave: 7, keys:[
           "C7",
-          "C#7",
+          "Cs7",
           "D7",
-          "D#7",
+          "Ds7",
           "E7",
           "F7",
-          "F#7",
+          "Fs7",
           "G7",
-          "G#7",
+          "Gs7",
           "A7",
-          "A#7",
+          "As7",
           "B7",
         ], active: false},
         {octave: 8, keys:["C8"], active: false},
@@ -191,15 +251,6 @@ export default {
   },
 
   methods: {
-    playSound(sound) {
-      console.log(sound);
-      if (sound) {
-        let audio = new Audio(sound);
-        console.log(audio);
-        audio.play();
-      }
-    },
-
     disableAllButtons() {
       if (this.togglePiano) {
         this.togglePiano = false;
@@ -258,23 +309,6 @@ export default {
 
 .piano__keys {
   width: 80%;
-}
-
-.key {
-  margin-bottom: 1px;
-  cursor: pointer;
-}
-
-.white {
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-}
-
-.black {
-  background-color: #000;
-  color: #fff;
-  border: 1px solid transparent;
 }
 
 .piano__volume-levels {

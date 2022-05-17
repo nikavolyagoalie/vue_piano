@@ -18,6 +18,13 @@ import As1 from '@/assets/samples/Piano.ff.Ab7.aiff.mp3'
 const sounds = {
     'octava0': {A0, As0, B0},
     'octava1': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava2': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava3': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava4': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava5': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava6': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava7': {C1, D1, E1, F1, G1, A1, B1, Cs1, Ds1, Fs1, Gs1, As1},
+    'octava8': {A0},
 }
 
 export default sounds
